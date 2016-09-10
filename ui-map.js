@@ -19,7 +19,14 @@
     });
   }
 
-  app.value('uiMapConfig', {})
+  app.value('uiMapConfig', {
+    ngCenter: {
+      lat: 32.05000,
+      lng: 118.78333
+    },
+    ngZoom: 12,
+    uiMapCache: true //是否使用缓存来缓存此map dom，而不是每次链接跳转来都重新创建
+  })
     .directive('uiMap', ['uiMapConfig', '$window', '$parse',
       function (uiMapConfig, $window, $parse) {
 
@@ -31,7 +38,6 @@
           },
           link: function (scope, elm, attrs) {
             var map;
-
             var opts = angular.extend({}, options, scope.$eval(attrs.uiOptions));
 
             scope.$on("map.loaded", function (e, type) {
@@ -164,7 +170,6 @@
         return {
           restrict: 'A',
           link: function (scope, element, attrs) {
-
             $window.mapqqLoadedCallback = function mapqqLoadedCallback() {
               scope.$broadcast("map.loaded", "qq");
             };
@@ -251,4 +256,5 @@
   }
 
   var decode = decodeURIComponent;
-}());
+})();
+
